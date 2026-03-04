@@ -1,7 +1,0 @@
-"Table 3-20:  Approach 2 Quantitative Uncertainty Estimates for CH4 and N2O Emissions from Energy-Related Stationary Combustion, Including Biomass (MMT CO2 Eq. and Percent)",,,,,,
-Source,Gas,2022 Emission Estimate,Uncertainty Range Relative to Emission Estimatea,,,
-,,(MMT CO2 Eq.),(MMT CO2 Eq.),,(%),
-,,,Lower Bound,Upper Bound,Lower Bound,Upper Bound
-Stationary Combustion,CH4,8.6,5.9,19.1,-31%,122%
-Stationary Combustion,N2O,24.7,16.5,33.4,-33%,35%
-a Range of emission estimates predicted by Monte Carlo stochastic simulation for a 95 percent confidence interval.,,,,,,

@@ -1,8 +1,0 @@
-Table 3-38:  Approach 2 Quantitative Uncertainty Estimates for CH4 and CO2 Emissions from Coal Mining (MMT CO2 Eq. and Percent),,,,,,
-Source,Gas,2022 Emission Estimate,Uncertainty Range Relative to Emission Estimatea,,,
-,,(MMT CO2 Eq.),(MMT CO2 Eq.),,(%),
-,,,Lower,Upper,Lower,Upper
-,,,Bound,Bound,Bound,Bound
-Coal Mining,CH4,43.6,34.8,47.8,-20%,9%
-Coal Mining,CO2,2.5,0.8,4.3,-69%,75%
-a Range of emission estimates predicted by Monte Carlo stochastic simulation for a 95 percent confidence interval.,,,,,,

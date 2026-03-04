@@ -1,9 +1,0 @@
-Table 3-79: Approach 2 Quantitative Uncertainty Estimates for CH4 and Non-combustion CO2 Emissions from Natural Gas Systems (MMT CO2 Eq. and Percent),,,,,,
-Source,Gas,2022 Emission Estimate,Uncertainty Range Relative to Emission Estimatea,,,
-,,(MMT CO2 Eq.)b,(MMT CO2 Eq.),,(%),
-,,,Lower Boundb,Upper Boundb,Lower Boundb,Upper Boundb
-Natural Gas Systems,CH4,173.1,141.2,203.0,-18%,17%
-Natural Gas Systems,CO2,36.5,31.9,42.1,-12%,15%
-Natural Gas Systems,N2O,0.15,0.13,0.18,-12%,15%
-a Range of emission estimates estimated by applying the 95 percent confidence intervals obtained from the Monte Carlo simulation analysis conducted for the year 2022 CH4 and CO2 emissions.,,,,,,
-"b All reported values are rounded after calculation. As a result, lower and upper bounds may not be duplicable from other rounded values as shown in Table 3?73 and Table 3?74.",,,,,,
