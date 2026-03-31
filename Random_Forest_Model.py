@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-High R² (0.82) Random Forest Model - uses state-level data from LightGBM/XGBoost notebooks.
-Run: source venv/bin/activate && python Random_Forest_Model.py
-"""
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
