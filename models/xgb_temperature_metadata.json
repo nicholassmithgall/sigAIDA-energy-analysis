@@ -1,0 +1,10 @@
+{
+  "features": [
+    "state_fips",
+    "year"
+  ],
+  "target": "temp",
+  "name": "xgb_temperature",
+  "description": "Predicts average annual temperature by state and year",
+  "best_cv_r2": 0.888
+}

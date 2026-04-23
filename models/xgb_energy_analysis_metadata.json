@@ -1,0 +1,9 @@
+{
+  "features": [
+    "index"
+  ],
+  "target": "US",
+  "name": "xgb_energy_analysis",
+  "description": "Predicts total US CO2 emissions by year index",
+  "best_cv_r2": 0.711
+}
