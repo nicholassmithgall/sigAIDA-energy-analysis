@@ -111,40 +111,31 @@
   <div class="demo-grid">
     <div>
       <div class="input-group">
-        <label>Energy Consumption (MWh)</label>
-        <div class="input-row">
-          <input type="range" min="0" max="500" value="180" id="energy" oninput="updateSlider('energy','energyVal');predict()">
-          <span id="energyVal">180</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Fleet Size (vehicles)</label>
-        <div class="input-row">
-          <input type="range" min="0" max="200" value="45" id="fleet" oninput="updateSlider('fleet','fleetVal');predict()">
-          <span id="fleetVal">45</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Production Volume (units)</label>
-        <div class="input-row">
-          <input type="range" min="0" max="10000" step="100" value="3200" id="prod" oninput="updateSlider('prod','prodVal');predict()">
-          <span id="prodVal">3200</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Renewable Energy Share (%)</label>
-        <div class="input-row">
-          <input type="range" min="0" max="100" value="22" id="renew" oninput="updateSlider('renew','renewVal');predict()">
-          <span id="renewVal">22</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Facility Age (years)</label>
-        <div class="input-row">
-          <input type="range" min="0" max="50" value="12" id="age" oninput="updateSlider('age','ageVal');predict()">
-          <span id="ageVal">12</span>
-        </div>
-      </div>
+  <div class="label-row">
+    <label>Target Year</label>
+    <span id="yearVal">2024</span>
+  </div>
+  <input type="range" id="year" min="2000" max="2050" value="2024" oninput="predict()">
+</div>
+
+<div class="input-group">
+  <div class="label-row">
+    <label>Total Population (Millions)</label>
+    <span id="prodVal">330</span>
+  </div>
+  <input type="range" id="prod" min="100" max="500" value="330" oninput="predict()">
+</div>
+
+<div class="input-group">
+  <label>Select State</label>
+  <select id="state" oninput="predict()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--gray-light);">
+    <option value="AL">Alabama</option>
+    <option value="CA">California</option>
+    <option value="NY">New York</option>
+    <option value="TX">Texas</option>
+    <option value="US" selected>United States (Total)</option>
+    </select>
+</div>
     </div>
     <div class="result-panel">
       <div class="result-top">Predicted Emission</div>
@@ -216,14 +207,38 @@ function updateSlider(id,outId){
   document.getElementById(outId).textContent=document.getElementById(id).value;
 }
 async function predict() {
-  // Capture values from your existing HTML IDs
+  // 1. Grab the values from the new IDs
   const payload = {
-    energy: document.getElementById('energy').value,
-    fleet: document.getElementById('fleet').value,
+    year: document.getElementById('year').value,
     prod: document.getElementById('prod').value,
-    renew: document.getElementById('renew').value,
-    age: document.getElementById('age').value
+    state: document.getElementById('state').value
   };
+
+  // Update the UI number displays
+  document.getElementById('yearVal').textContent = payload.year;
+  document.getElementById('prodVal').textContent = payload.prod;
+
+  try {
+    const response = await fetch('http://127.0.0.1:5000/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      // resultVal is the ID where the big number is displayed
+      document.getElementById('resultVal').textContent = data.emissions.toFixed(1);
+      
+      // Update progress bar (adjust the '500' based on your expected max emissions)
+      const pct = Math.min(100, Math.round((data.emissions / 500) * 100));
+      document.getElementById('barFill').style.width = pct + '%';
+    }
+  } catch (err) {
+    console.error("Backend connection failed.", err);
+  }
+}
 
   try {
     const response = await fetch('http://127.0.0.1:5000/predict', {
