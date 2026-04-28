@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions Predictor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Lora:wght@400;600&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --green: #1D9E75;
+            --green-light: #E1F5EE;
+            --green-dark: #085041;
+            --teal: #0F6E56;
+            --gray: #5F5E5A;
+            --gray-light: #F1EFE8;
+            --font-display: 'Lora', serif;
+            --font-mono: 'DM Mono', monospace;
+            --color-text-primary: #1a1a1a;
+            --color-text-secondary: #4a4a4a;
+            --color-border-tertiary: #e0e0e0;
+            --color-background-secondary: #f9f9f7;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+        }
+
+        body { font-family: sans-serif; color: var(--color-text-primary); background: #fff; line-height: 1.5; }
+        
+        nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+        .nav-logo { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--green-dark); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; letter-spacing: 0.02em; cursor: pointer; }
+        .nav-links a:hover { color: var(--green); }
+
+        section { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
+        .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+        
+        h1 { font-family: var(--font-display); font-size: 38px; font-weight: 600; line-height: 1.2; margin-bottom: 1.25rem; }
+        h2 { font-family: var(--font-display); font-size: 26px; font-weight: 600; margin-bottom: 1rem; }
+        p { font-size: 15px; color: var(--color-text-secondary); margin-bottom: 1rem; }
+
+        .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+        .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.5rem; }
+        .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; border-radius: 4px; background: var(--green-light); color: var(--green-dark); border: 0.5px solid #9FE1CB; }
+
+        .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; border: 0.5px solid var(--color-border-tertiary); }
+        .stat-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 4px; }
+        .stat-value { font-size: 22px; font-weight: 500; color: var(--green-dark); }
+
+        .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+        
+        .input-group { margin-bottom: 1.5rem; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .input-group label { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; }
+        .input-group span { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--green-dark); }
+        
+        input[type=range] { width: 100%; cursor: pointer; accent-color: var(--green); }
+        select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--color-border-tertiary); font-family: var(--font-mono); background: white; }
+
+        .result-panel { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 1.5rem; min-height: 320px; display: flex; flex-direction: column; }
+        .result-top { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 1rem; }
+        .result-value { font-family: var(--font-display); font-size: 42px; font-weight: 600; color: var(--green-dark); line-height: 1; }
+        .result-unit { font-size: 14px; color: var(--color-text-secondary); font-family: var(--font-mono); margin-bottom: 1rem; }
+        
+        .risk-chip { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; border-radius: 4px; margin-bottom: 1.5rem; }
+        
+        .result-bar-wrap { margin-top: auto; }
+        .bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--color-text-secondary); font-family: var(--font-mono); margin-bottom: 6px; }
+        .bar-track { height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--green); transition: width 0.5s ease; }
+        #resultNote { margin-top: 1rem; font-size: 13px; color: var(--color-text-secondary); font-style: italic; }
+
+        .embed-placeholder { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); background: var(--color-background-secondary); height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        iframe.powerbi { width: 100%; height: 500px; border: none; border-radius: var(--border-radius-lg); }
+        
+        footer { border-top: 0.5px solid var(--color-border-tertiary); padding: 2rem; display: flex; justify-content: space-between; max-width: 900px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <span class="nav-logo">CO₂ML</span>
+    <div class="nav-links">
+        <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
+        <a onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Model Demo</a>
+        <a onclick="document.getElementById('viz').scrollIntoView({behavior:'smooth'})">Visualizations</a>
+    </div>
+</nav>
+
+<div class="hero" id="about">
+    <div>
+        <div class="section-label">ML Research Project</div>
+        <h1>Predicting Carbon Emissions with XGBoost</h1>
+        <p>This interactive simulator uses a Gradient Boosted Decision Tree model to estimate CO₂ emissions based on population and regional trends.</p>
+        <div class="hero-badges">
+            <span class="badge">XGBoost</span>
+            <span class="badge">Python</span>
+            <span class="badge">PowerBI</span>
+        </div>
+    </div>
+    <div class="hero-stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Model R²</div>
+            <div class="stat-value">0.94</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Features</div>
+            <div class="stat-value">3</div>
+        </div>
+    </div>
+</div>
+
+<section id="demo">
+    <div class="section-label">Simulator</div>
+    <h2>Interactive Model Demo</h2>
+    <div class="demo-grid">
+        <div class="controls">
+            <div class="input-group">
+                <div class="label-row">
+                    <label>Target Year</label>
+                    <span id="yearVal">2024</span>
+                </div>
+                <input type="range" id="year" min="1990" max="2050" value="2024" oninput="predict()">
+            </div>
+
+            <div class="input-group">
+                <div class="label-row">
+                    <label>Population (Millions)</label>
+                    <span id="prodVal">330</span>
+                </div>
+                <input type="range" id="prod" min="1" max="500" value="330" oninput="predict()">
+            </div>
+
+            <div class="input-group">
+                <div class="label-row"><label>Region/State</label></div>
+                <select id="state" onchange="predict()">
+                    <option value="US" selected>United States (Total)</option>
+                    <option value="AL">Alabama</option>
+                    <option value="CA">California</option>
+                    <option value="NY">New York</option>
+                    <option value="TX">Texas</option>
+                    <option value="FL">Florida</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div class="result-top">Predicted Emissions</div>
+            <div class="result-value" id="resultVal">—</div>
+            <div class="result-unit">Million Metric Tons CO₂</div>
+            <div id="riskChip"></div>
+            
+            <div class="result-bar-wrap">
+                <div class="bar-label"><span>0</span><span>Scale</span><span>5000</span></div>
+                <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+                <div id="resultNote">Adjust sliders to see the prediction.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="viz">
+    <div class="section-label">Visualizations</div>
+    <h2>PowerBI Dashboard</h2>
+    <div style="display:flex; gap:10px; margin-bottom:1rem;">
+        <input type="text" id="pbiUrl" placeholder="Paste PowerBI Embed URL here..." style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;">
+        <button onclick="embedPBI()" style="padding:10px 20px; background:var(--green); color:white; border:none; border-radius:8px; cursor:pointer;">Embed</button>
+    </div>
+    <div id="pbiContainer" class="embed-placeholder">
+        <p>PowerBI Report will appear here</p>
+    </div>
+</section>
+
+<footer>
+    <span class="nav-logo" style="font-size:14px">CO₂ML</span>
+    <span style="font-size:11px; color:gray;">© 2024 Carbon Research Project</span>
+</footer>
+
+<script>
+    function updateRiskIndicators(result) {
+        let risk, chipStyle, note;
+        // Adjusted thresholds for US Total scale (Million Metric Tons)
+        if (result < 1000) {
+            risk = 'Low Relative Impact';
+            chipStyle = 'background:#E1F5EE;color:#085041;border:0.5px solid #9FE1CB';
+            note = 'Emissions are relatively low for this population and year.';
+        } else if (result < 3000) {
+            risk = 'Moderate Impact';
+            chipStyle = 'background:#FAEEDA;color:#633806;border:0.5px solid #FAC775';
+            note = 'Emissions follow a standard historical growth trend.';
+        } else {
+            risk = 'High Impact';
+            chipStyle = 'background:#FCEBEB;color:#501313;border:0.5px solid #F7C1C1';
+            note = 'Significant emissions predicted. Potential for policy intervention required.';
+        }
+
+        const riskChip = document.getElementById('riskChip');
+        const resultNote = document.getElementById('resultNote');
+        riskChip.innerHTML = `<span class="risk-chip" style="${chipStyle}">${risk}</span>`;
+        resultNote.textContent = note;
+    }
+
+    async function predict() {
+        const year = document.getElementById('year').value;
+        const prod = document.getElementById('prod').value;
+        const state = document.getElementById('state').value;
+
+        // Update labels
+        document.getElementById('yearVal').textContent = year;
+        document.getElementById('prodVal').textContent = prod;
+
+        const payload = { year, prod, state };
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                const val = data.emissions;
+                document.getElementById('resultVal').textContent = val.toFixed(1);
+                
+                // Progress bar (US Total max is roughly 6000)
+                const pct = Math.min(100, (val / 6000) * 100);
+                document.getElementById('barFill').style.width = pct + '%';
+                
+                updateRiskIndicators(val);
+            }
+        } catch (err) {
+            console.error("Backend offline. Check app.py", err);
+            document.getElementById('resultVal').textContent = "ERR";
+        }
+    }
+
+    function embedPBI() {
+        const url = document.getElementById('pbiUrl').value.trim();
+        if(url) {
+            document.getElementById('pbiContainer').innerHTML = `<iframe class="powerbi" src="${url}" allowFullScreen="true"></iframe>`;
+        }
+    }
+
+    // Initial call
+    predict();
+</script>
+
+</body>
+</html>

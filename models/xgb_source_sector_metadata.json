@@ -1,0 +1,11 @@
+{
+  "features": [
+    "State",
+    "Year",
+    "Total population"
+  ],
+  "target": "Total",
+  "name": "xgb_source_sector",
+  "description": "Predicts total CO2 emissions per state by state, year, and population",
+  "best_cv_r2": 0.997
+}
