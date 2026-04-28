@@ -1,0 +1,263 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Lora:wght@400;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
+    --teal:#0F6E56;--gray:#5F5E5A;--gray-light:#F1EFE8;
+    --font-display:'Lora',serif;--font-mono:'DM Mono',monospace;
+  }
+  body{font-family:var(--font-sans,sans-serif);color:var(--color-text-primary);background:transparent}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+  .nav-logo{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--green-dark)}
+  .nav-links{display:flex;gap:2rem}
+  .nav-links a{font-size:13px;color:var(--color-text-secondary);text-decoration:none;letter-spacing:0.02em;cursor:pointer}
+  .nav-links a:hover{color:var(--color-text-primary)}
+  section{padding:4rem 2rem;max-width:900px;margin:0 auto}
+  .section-label{font-family:var(--font-mono);font-size:11px;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem}
+  h1{font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1.2;margin-bottom:1.25rem}
+  h2{font-family:var(--font-display);font-size:26px;font-weight:600;margin-bottom:1rem}
+  p{font-size:15px;line-height:1.75;color:var(--color-text-secondary)}
+  .hero{padding:5rem 2rem 3rem;max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .hero-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem}
+  .badge{font-family:var(--font-mono);font-size:11px;padding:4px 10px;border-radius:4px;background:var(--green-light);color:var(--green-dark);border:0.5px solid #9FE1CB}
+  .hero-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border:0.5px solid var(--color-border-tertiary)}
+  .stat-label{font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+  .stat-value{font-size:22px;font-weight:500;color:var(--green-dark)}
+  .stat-sub{font-size:12px;color:var(--color-text-secondary)}
+  hr.section-divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:0 2rem}
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+  .input-group{margin-bottom:1rem}
+  .input-group label{display:block;font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+  .input-row{display:flex;align-items:center;gap:10px}
+  .input-row input[type=range]{flex:1}
+  .input-row span{font-family:var(--font-mono);font-size:13px;font-weight:500;min-width:48px;text-align:right}
+  .predict-btn{width:100%;padding:10px;border:0.5px solid var(--green);background:var(--green-light);color:var(--green-dark);border-radius:var(--border-radius-md);font-family:var(--font-mono);font-size:13px;cursor:pointer;margin-top:0.5rem;transition:background 0.15s}
+  .predict-btn:hover{background:#9FE1CB}
+  .result-panel{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);padding:1.5rem;min-height:320px;display:flex;flex-direction:column;gap:1rem}
+  .result-top{font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em}
+  .result-value{font-family:var(--font-display);font-size:42px;font-weight:600;color:var(--green-dark);line-height:1}
+  .result-unit{font-size:14px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+  .result-bar-wrap{margin-top:auto}
+  .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);font-family:var(--font-mono);margin-bottom:6px}
+  .bar-track{height:6px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:3px;background:var(--green);transition:width 0.4s ease}
+  .risk-chip{display:inline-block;font-family:var(--font-mono);font-size:11px;padding:4px 10px;border-radius:4px;margin-top:0.75rem}
+  .powerbi-section{padding:3rem 2rem;max-width:900px;margin:0 auto}
+  .embed-placeholder{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);background:var(--color-background-secondary);height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem}
+  .embed-icon{width:48px;height:48px;border-radius:8px;background:var(--green-light);border:0.5px solid #9FE1CB;display:flex;align-items:center;justify-content:center}
+  .embed-icon svg{width:24px;height:24px}
+  .embed-url-input{display:flex;gap:8px;width:100%;max-width:480px}
+  .embed-url-input input{flex:1;font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+  .embed-url-input button{padding:8px 14px;border:0.5px solid var(--green);background:var(--green-light);color:var(--green-dark);border-radius:var(--border-radius-md);font-family:var(--font-mono);font-size:12px;cursor:pointer}
+  iframe.powerbi{width:100%;height:420px;border:none;border-radius:var(--border-radius-lg)}
+  footer{border-top:0.5px solid var(--color-border-tertiary);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;max-width:900px;margin:0 auto}
+  .footer-note{font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary)}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Carbon Emissions ML Project Website — overview, model demo, and PowerBI visualization</h2>
+
+<nav>
+  <span class="nav-logo">CO₂ML</span>
+  <div class="nav-links">
+    <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
+    <a onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Model Demo</a>
+    <a onclick="document.getElementById('viz').scrollIntoView({behavior:'smooth'})">Visualizations</a>
+  </div>
+</nav>
+
+<div class="hero" id="about">
+  <div>
+    <div class="section-label">ML Research Project</div>
+    <h1>Predicting Carbon Emissions with XGBoost</h1>
+    <p>A machine learning approach to estimating CO₂ emissions using gradient-boosted decision trees, built to support data-driven climate decision making.</p>
+    <div class="hero-badges">
+      <span class="badge">XGBoost</span>
+      <span class="badge">Python</span>
+      <span class="badge">PowerBI</span>
+      <span class="badge">Carbon Forecasting</span>
+    </div>
+  </div>
+  <div class="hero-stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">Model R²</div>
+      <div class="stat-value">0.94</div>
+      <div class="stat-sub">test set</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">RMSE</div>
+      <div class="stat-value">3.2</div>
+      <div class="stat-sub">tonnes CO₂</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Features</div>
+      <div class="stat-value">18</div>
+      <div class="stat-sub">input variables</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Training</div>
+      <div class="stat-value">12k</div>
+      <div class="stat-sub">data points</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<section id="demo">
+  <div class="section-label">Interactive</div>
+  <h2>Model Demo</h2>
+  <div class="demo-grid">
+    <div>
+      <div class="input-group">
+        <label>Energy Consumption (MWh)</label>
+        <div class="input-row">
+          <input type="range" min="0" max="500" value="180" id="energy" oninput="updateSlider('energy','energyVal');predict()">
+          <span id="energyVal">180</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Fleet Size (vehicles)</label>
+        <div class="input-row">
+          <input type="range" min="0" max="200" value="45" id="fleet" oninput="updateSlider('fleet','fleetVal');predict()">
+          <span id="fleetVal">45</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Production Volume (units)</label>
+        <div class="input-row">
+          <input type="range" min="0" max="10000" step="100" value="3200" id="prod" oninput="updateSlider('prod','prodVal');predict()">
+          <span id="prodVal">3200</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Renewable Energy Share (%)</label>
+        <div class="input-row">
+          <input type="range" min="0" max="100" value="22" id="renew" oninput="updateSlider('renew','renewVal');predict()">
+          <span id="renewVal">22</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Facility Age (years)</label>
+        <div class="input-row">
+          <input type="range" min="0" max="50" value="12" id="age" oninput="updateSlider('age','ageVal');predict()">
+          <span id="ageVal">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="result-panel">
+      <div class="result-top">Predicted Emission</div>
+      <div class="result-value" id="resultVal">—</div>
+      <div class="result-unit">tonnes CO₂ / year</div>
+      <div id="riskChip"></div>
+      <div class="result-bar-wrap">
+        <div class="bar-label">
+          <span>Low</span><span>Sector Avg</span><span>High</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+        <div style="margin-top:1.25rem;font-size:13px;color:var(--color-text-secondary);line-height:1.6" id="resultNote"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<div class="powerbi-section" id="viz">
+  <div class="section-label">Visualizations</div>
+  <h2>PowerBI Dashboard</h2>
+  <p style="margin-bottom:1.5rem">Paste your PowerBI embed URL below to display your report inline.</p>
+  <div class="embed-url-input" style="margin-bottom:1rem">
+    <input type="text" id="pbiUrl" placeholder="https://app.powerbi.com/reportEmbed?reportId=..." />
+    <button onclick="embedPBI()">Embed</button>
+  </div>
+  <div id="pbiContainer">
+    <div class="embed-placeholder">
+      <div class="embed-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V11M12 17V7M16 17v-5"/></svg>
+      </div>
+      <p style="font-size:13px;color:var(--color-text-secondary);text-align:center;max-width:260px">Enter your PowerBI embed URL above to display your report here</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="nav-logo" style="font-size:14px">CO₂ML</span>
+  <span class="footer-note">XGBoost · PowerBI · Climate ML</span>
+</footer>
+
+<script>
+function updateRiskIndicators(result) {
+  let risk, chipStyle, note;
+  
+  if (result < 80) {
+    risk = 'Low Emitter';
+    chipStyle = 'background:#E1F5EE;color:#085041;border:0.5px solid #9FE1CB';
+    note = 'This operation falls below the sector average. The high renewable share is a key contributor to lower emissions.';
+  } else if (result < 160) {
+    risk = 'Average Emitter';
+    chipStyle = 'background:#FAEEDA;color:#633806;border:0.5px solid #FAC775';
+    note = 'Emissions are within the typical sector range. Increasing renewable energy share could meaningfully reduce this estimate.';
+  } else {
+    risk = 'High Emitter';
+    chipStyle = 'background:#FCEBEB;color:#501313;border:0.5px solid #F7C1C1';
+    note = 'This exceeds sector averages. Consider energy audits, fleet electrification, or renewable energy procurement.';
+  }
+  
+  // Update the chip and text on the page
+  const riskChip = document.getElementById('riskChip');
+  const resultNote = document.getElementById('resultNote');
+  
+  if (riskChip) riskChip.innerHTML = `<span class="risk-chip" style="${chipStyle}">${risk}</span>`;
+  if (resultNote) resultNote.textContent = note;
+}
+function updateSlider(id,outId){
+  document.getElementById(outId).textContent=document.getElementById(id).value;
+}
+async function predict() {
+  // Capture values from your existing HTML IDs
+  const payload = {
+    energy: document.getElementById('energy').value,
+    fleet: document.getElementById('fleet').value,
+    prod: document.getElementById('prod').value,
+    renew: document.getElementById('renew').value,
+    age: document.getElementById('age').value
+  };
+
+  try {
+    const response = await fetch('http://127.0.0.1:5000/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    console.log("Data received from Python:", data);
+    
+    if (data.status === 'success') {
+      const result = data.emissions;
+      
+      // Update your UI elements
+      console.log("Setting resultVal to:", data.emissions);
+      document.getElementById('resultVal').textContent = result.toFixed(1);
+      
+      // Update the progress bar scale (assumed max 250 for display)
+      const pct = Math.min(100, Math.round((result / 250) * 100));
+      document.getElementById('barFill').style.width = pct + '%';
+      
+      // Run your existing risk-level color logic
+      updateRiskIndicators(result);
+    }
+  } catch (err) {
+    console.error("Backend offline. Run 'python app.py' first.", err);
+  }
+}
+function embedPBI(){
+  const url=document.getElementById('pbiUrl').value.trim();
+  if(!url){return;}
+  const container=document.getElementById('pbiContainer');
+  container.innerHTML=`<iframe class="powerbi" src="${url}" allowFullScreen="true"></iframe>`;
+}
+predict();
+</script>
